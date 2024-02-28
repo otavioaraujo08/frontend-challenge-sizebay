@@ -3,6 +3,7 @@ import { Modal } from '@components/modal/index.tsx';
 import { Container } from './app.ts';
 import { ProgressBar } from '@components/progressBar/index.tsx';
 import { Filter } from '@components/filter/index.tsx';
+import { Input } from '@components/input/index.tsx';
 
 export const App = () => {
   return (
@@ -11,6 +12,8 @@ export const App = () => {
         <ProgressBar progress={50} />
 
         <Filter />
+
+        <Input />
       </Modal>
     </Container>
   );
