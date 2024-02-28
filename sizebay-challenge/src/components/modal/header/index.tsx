@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const Container = styled.div`
   width: 42.5rem;
   height: 4.9375rem;
-  margin: 3.375rem 3.75rem;
+  margin-top: 3.375rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
