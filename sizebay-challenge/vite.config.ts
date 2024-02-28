@@ -8,6 +8,7 @@ export default defineConfig({
     preserveSymlinks: true,
     alias: {
       '@components': '/src/components',
+      '@utils': '/src/utils',
     },
   },
 });
