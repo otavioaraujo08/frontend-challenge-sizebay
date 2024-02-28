@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+interface ProgressBarProps {
+  progress: number;
+}
+
 const ProgressBarContainer = styled.div`
   width: 42.5rem;
   height: 1.5rem;
@@ -13,6 +17,16 @@ const ProgressBarContainer = styled.div`
   }
 `;
 
-export const ProgressBar = () => {
-  return <ProgressBarContainer></ProgressBarContainer>;
+const Progress = styled.div<ProgressBarProps>`
+  width: ${(props) => props.progress}%;
+  height: 100%;
+  background-color: #5de290;
+`;
+
+export const ProgressBar = ({ progress }: ProgressBarProps) => {
+  return (
+    <ProgressBarContainer>
+      <Progress progress={progress} />
+    </ProgressBarContainer>
+  );
 };
