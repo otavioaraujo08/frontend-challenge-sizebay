@@ -18,10 +18,16 @@ const Container = styled.div`
   }
 `;
 
-export const Modal = () => {
+interface ModalProps {
+  children: React.ReactNode;
+}
+
+export const Modal = ({ children }: ModalProps) => {
   return (
     <Container>
       <Header />
+
+      {children}
     </Container>
   );
 };
