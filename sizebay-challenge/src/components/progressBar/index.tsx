@@ -17,8 +17,8 @@ const ProgressBarContainer = styled.div`
   }
 `;
 
-const Progress = styled.div<ProgressBarProps>`
-  width: ${(props) => props.progress}%;
+const Progress = styled.div<{ $progress: number }>`
+  width: ${(props) => props.$progress}%;
   height: 100%;
   background-color: #5de290;
 `;
@@ -26,7 +26,7 @@ const Progress = styled.div<ProgressBarProps>`
 export const ProgressBar = ({ progress }: ProgressBarProps) => {
   return (
     <ProgressBarContainer>
-      <Progress progress={progress} />
+      <Progress $progress={progress} />
     </ProgressBarContainer>
   );
 };
