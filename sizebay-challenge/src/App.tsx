@@ -5,8 +5,9 @@ import { ProgressBar } from '@components/progressBar/index.tsx';
 import { Filter } from '@components/filter/index.tsx';
 import { Input } from '@components/input/index.tsx';
 import { useState } from 'react';
+import { Tasks } from '@components/tasks/index.tsx';
 
-interface TaskModel {
+export interface TaskModel {
   title: string;
   status: 'pending' | 'done';
 }
@@ -22,6 +23,8 @@ export const App = () => {
         <Filter />
 
         <Input />
+
+        <Tasks tasksList={tasks || []} />
       </Modal>
     </Container>
   );
