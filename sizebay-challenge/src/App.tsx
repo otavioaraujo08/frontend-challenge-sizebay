@@ -1,9 +1,11 @@
-import "./App.css";
+import { Modal } from '@components/modal/index.tsx';
+import './app.ts';
+import { Container } from './app.ts';
 
 export const App = () => {
   return (
-    <>
-      <h1>Ola mundo</h1>
-    </>
+    <Container>
+      <Modal />
+    </Container>
   );
 };
