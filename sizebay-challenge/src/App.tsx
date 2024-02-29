@@ -24,24 +24,34 @@ export const App = () => {
     setSearchFilter(searchTitle);
   };
 
-  const handleChangeFilter = (
-    filterValue: FilterTitles,
-    clearFilter?: boolean
-  ) => {
-    if (clearFilter || filter === filterValue) {
-      return setFilter('none');
+  const handleChangeFilter = (filterValue: FilterTitles) => {
+    if (filter === filterValue) {
+      return hanldeClearFilter();
     }
 
     setFilter(filterValue);
   };
 
   const handleCreateTask = () => {
-    setTasks([...tasks, { title: task, status: 'pending' }]);
+    if (tasks.some((taskList) => taskList.title === task)) {
+      alert('Este título já existe na lista de tarefas.');
+      return;
+    }
+
+    setTasks([
+      ...tasks,
+      { title: task, status: filter !== 'done' ? 'pending' : 'done' },
+    ]);
     setTask('');
   };
 
   const handleUpdateInputTask = (task: string) => {
     setTask(task);
+  };
+
+  const hanldeClearFilter = () => {
+    setSearchFilter('');
+    setFilter('none');
   };
 
   return (
@@ -62,7 +72,7 @@ export const App = () => {
           onChange={handleUpdateInputTask}
         />
 
-        <Tasks tasksList={tasks || []} />
+        <Tasks tasksList={tasks || []} clearFilter={hanldeClearFilter} />
       </Modal>
     </Container>
   );
