@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { TaskModel } from 'App';
+import { FilterTitles, TaskModel } from 'App';
+import { useEffect, useState } from 'react';
 
 export const Container = styled.div`
   width: 42.5rem;
@@ -78,29 +79,50 @@ export const TextHelper = styled.h1`
 
 interface TasksProps {
   tasksList: TaskModel[] | [];
+  searchFilter: string;
   clearFilter: () => void;
+  currentFilter: FilterTitles;
 }
+export const Tasks = ({
+  tasksList,
+  searchFilter,
+  clearFilter,
+  currentFilter,
+}: TasksProps) => {
+  const [filteredTasks, setFilteredTasks] = useState<TaskModel[]>(tasksList);
 
-export const Tasks = ({ tasksList, clearFilter }: TasksProps) => {
-  return tasksList?.length ? (
+  useEffect(() => {
+    const newFilteredTasks = tasksList.filter((item) => {
+      const matchesSearch = item.title.includes(searchFilter);
+      const matchesCurrentFilter =
+        currentFilter === 'none' ||
+        (currentFilter === 'pending' && item.status === 'pending') ||
+        (currentFilter === 'done' && item.status === 'done');
+      return matchesSearch && matchesCurrentFilter;
+    });
+    setFilteredTasks(newFilteredTasks);
+  }, [searchFilter, tasksList, currentFilter]);
+
+  if (!tasksList.length) {
+    return (
+      <TextHelperContainer>
+        <TextHelper>
+          There are no items marked as{' '}
+          {currentFilter !== 'done' ? 'pending' : 'done'}.{' '}
+          <strong onClick={clearFilter}>Clear the filter here</strong> to see
+          all items.
+        </TextHelper>
+      </TextHelperContainer>
+    );
+  }
+
+  return (
     <Container>
-      {tasksList.map((task) => {
-        const { title } = task;
-
-        return (
-          <ContainerTask key={title}>
-            <TaskTitle>{title}</TaskTitle>
-          </ContainerTask>
-        );
-      })}
+      {filteredTasks.map(({ title }) => (
+        <ContainerTask key={title}>
+          <TaskTitle>{title}</TaskTitle>
+        </ContainerTask>
+      ))}
     </Container>
-  ) : (
-    <TextHelperContainer>
-      <TextHelper>
-        There are no items marked as done.{' '}
-        <strong onClick={clearFilter}>Clear the filter here</strong> to see all
-        items.
-      </TextHelper>
-    </TextHelperContainer>
   );
 };
