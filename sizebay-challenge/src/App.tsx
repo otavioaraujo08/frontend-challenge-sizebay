@@ -72,7 +72,12 @@ export const App = () => {
           onChange={handleUpdateInputTask}
         />
 
-        <Tasks tasksList={tasks || []} clearFilter={hanldeClearFilter} />
+        <Tasks
+          tasksList={tasks || []}
+          clearFilter={hanldeClearFilter}
+          searchFilter={searchFilter}
+          currentFilter={filter}
+        />
       </Modal>
     </Container>
   );
