@@ -63,6 +63,15 @@ export const App = () => {
     setTasks(updatedTasks);
   };
 
+  const calculateCompletionPercentage = () => {
+    if (tasks.length === 0) {
+      return 0;
+    }
+
+    const doneTasks = tasks.filter((task) => task.status === 'done');
+    return (doneTasks.length / tasks.length) * 100;
+  };
+
   const handleUpdateInputTask = (task: string) => {
     setTask(task);
   };
@@ -75,7 +84,7 @@ export const App = () => {
   return (
     <Container>
       <Modal>
-        <ProgressBar progress={50} />
+        <ProgressBar progress={calculateCompletionPercentage()} />
 
         <Filter
           onClick={handleChangeFilter}
