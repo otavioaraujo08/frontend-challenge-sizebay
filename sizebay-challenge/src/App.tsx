@@ -45,6 +45,11 @@ export const App = () => {
     setTask('');
   };
 
+  const handleDeleteTask = (taskTitle: string) => {
+    const updatedTasks = tasks.filter((task) => task.title !== taskTitle);
+    setTasks(updatedTasks);
+  };
+
   const handleUpdateInputTask = (task: string) => {
     setTask(task);
   };
@@ -77,6 +82,7 @@ export const App = () => {
           clearFilter={hanldeClearFilter}
           searchFilter={searchFilter}
           currentFilter={filter}
+          deleteTask={handleDeleteTask}
         />
       </Modal>
     </Container>
