@@ -25,7 +25,7 @@ const InputStyled = styled.input`
   opacity: 0.5;
 `;
 
-const ButtonStyled = styled.button`
+const ButtonStyled = styled.button<{ $disabled: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -34,7 +34,7 @@ const ButtonStyled = styled.button`
   background: #4da6b3;
   border-radius: 0px 4px 4px 0px;
   border: 1px solid #dbdbdb;
-
+  opacity: ${(props) => (props.$disabled ? 0.5 : 1)};
   &:hover {
     cursor: pointer;
   }
@@ -52,6 +52,8 @@ interface InputComponentProps {
 }
 
 export const Input = ({ onClick, onChange, value }: InputComponentProps) => {
+  const buttonDisabled = value.length < 1;
+
   return (
     <Container>
       <InputStyled
@@ -62,7 +64,11 @@ export const Input = ({ onClick, onChange, value }: InputComponentProps) => {
         onChange={(e) => onChange(e.target.value)}
       />
 
-      <ButtonStyled onClick={onClick}>
+      <ButtonStyled
+        onClick={onClick}
+        disabled={buttonDisabled}
+        $disabled={buttonDisabled}
+      >
         <CircleAdd size={27} />
       </ButtonStyled>
     </Container>
