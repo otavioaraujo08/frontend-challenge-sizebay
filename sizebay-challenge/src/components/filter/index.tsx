@@ -92,10 +92,17 @@ const FilterInput = styled.input`
 
 interface FilterProps {
   onClick: (text: FilterTitles) => void;
+  onChange: (search: string) => void;
   currentFilter: FilterTitles;
+  currentSearchFilter: string;
 }
 
-export const Filter = ({ onClick, currentFilter }: FilterProps) => {
+export const Filter = ({
+  onClick,
+  currentFilter,
+  onChange,
+  currentSearchFilter,
+}: FilterProps) => {
   return (
     <Container>
       <ButtonsContainer>
@@ -114,7 +121,13 @@ export const Filter = ({ onClick, currentFilter }: FilterProps) => {
         })}
       </ButtonsContainer>
 
-      <FilterInput type="text" placeholder="Search items" maxLength={50} />
+      <FilterInput
+        type="text"
+        placeholder="Search items"
+        maxLength={50}
+        value={currentSearchFilter}
+        onChange={(e) => onChange(e.target.value)}
+      />
     </Container>
   );
 };
