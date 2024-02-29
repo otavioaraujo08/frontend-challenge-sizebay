@@ -7,14 +7,28 @@ import { Input } from '@components/input/index.tsx';
 import { useState } from 'react';
 import { Tasks } from '@components/tasks/index.tsx';
 
+export type FilterTitles = 'none' | 'pending' | 'done';
+
 export interface TaskModel {
   title: string;
   status: 'pending' | 'done';
 }
 
 export const App = () => {
+  const [filter, setFilter] = useState<FilterTitles>('none');
   const [tasks, setTasks] = useState<TaskModel[]>([]);
   const [task, setTask] = useState<string>('');
+
+  const handleChangeFilter = (
+    filterValue: FilterTitles,
+    clearFilter?: boolean
+  ) => {
+    if (clearFilter || filter === filterValue) {
+      return setFilter('none');
+    }
+
+    setFilter(filterValue);
+  };
 
   const handleCreateTask = () => {
     setTasks([...tasks, { title: task, status: 'pending' }]);
@@ -30,7 +44,7 @@ export const App = () => {
       <Modal>
         <ProgressBar progress={50} />
 
-        <Filter />
+        <Filter onClick={handleChangeFilter} currentFilter={filter} />
 
         <Input
           onClick={handleCreateTask}
