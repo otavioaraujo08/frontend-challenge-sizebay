@@ -45,6 +45,19 @@ export const App = () => {
     setTask('');
   };
 
+  const handleUpdateTaskStatus = (
+    title: string,
+    newStatus: 'pending' | 'done'
+  ) => {
+    const updatedTasks = tasks.map((task) => {
+      if (task.title === title) {
+        return { ...task, status: newStatus };
+      }
+      return task;
+    });
+    setTasks(updatedTasks);
+  };
+
   const handleDeleteTask = (taskTitle: string) => {
     const updatedTasks = tasks.filter((task) => task.title !== taskTitle);
     setTasks(updatedTasks);
@@ -82,6 +95,7 @@ export const App = () => {
           clearFilter={hanldeClearFilter}
           searchFilter={searchFilter}
           currentFilter={filter}
+          updateTaskStatus={handleUpdateTaskStatus}
           deleteTask={handleDeleteTask}
         />
       </Modal>
