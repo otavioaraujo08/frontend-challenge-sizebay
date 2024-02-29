@@ -13,7 +13,17 @@ export interface TaskModel {
 }
 
 export const App = () => {
-  const [tasks, setTasks] = useState<TaskModel[]>();
+  const [tasks, setTasks] = useState<TaskModel[]>([]);
+  const [task, setTask] = useState<string>('');
+
+  const handleCreateTask = () => {
+    setTasks([...tasks, { title: task, status: 'pending' }]);
+    setTask('');
+  };
+
+  const handleUpdateInputTask = (task: string) => {
+    setTask(task);
+  };
 
   return (
     <Container>
@@ -22,7 +32,11 @@ export const App = () => {
 
         <Filter />
 
-        <Input />
+        <Input
+          onClick={handleCreateTask}
+          value={task}
+          onChange={handleUpdateInputTask}
+        />
 
         <Tasks tasksList={tasks || []} />
       </Modal>
