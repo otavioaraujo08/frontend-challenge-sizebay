@@ -1,4 +1,6 @@
-import { filters } from '@utils/filters';
+import { FiltersList, filters } from '@utils/filters';
+import { SiVerizon } from 'react-icons/si';
+import { FilterTitles } from 'App';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -46,6 +48,26 @@ const FilterButton = styled.button`
   }
 `;
 
+const CurrentFilterButton = styled.button`
+  width: 5.25rem;
+  height: 2.0625rem;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 1px solid #4da6b3;
+  color: #4da6b3;
+  border-radius: 17px;
+  text-align: center;
+  font-size: 0.8rem;
+  font-family: Roboto;
+  letter-spacing: 0px;
+
+  &:hover {
+    cursor: pointer;
+    background: #efefef;
+    border: 1px solid #4da6b3;
+    color: #4da6b3;
+  }
+`;
+
 const FilterInput = styled.input`
   width: 28.125rem;
   height: 2.5rem;
@@ -68,13 +90,28 @@ const FilterInput = styled.input`
   }
 `;
 
-export const Filter = () => {
+interface FilterProps {
+  onClick: (text: FilterTitles) => void;
+  currentFilter: FilterTitles;
+}
+
+export const Filter = ({ onClick, currentFilter }: FilterProps) => {
   return (
     <Container>
       <ButtonsContainer>
-        {filters.map((filter) => (
-          <FilterButton key={filter.value}>{filter.name}</FilterButton>
-        ))}
+        {filters.map((filter: FiltersList) => {
+          const { name, value } = filter;
+
+          return currentFilter === value ? (
+            <CurrentFilterButton onClick={() => onClick(value)} key={value}>
+              <SiVerizon size={10} /> {name}
+            </CurrentFilterButton>
+          ) : (
+            <FilterButton onClick={() => onClick(value)} key={value}>
+              {name}
+            </FilterButton>
+          );
+        })}
       </ButtonsContainer>
 
       <FilterInput type="text" placeholder="Search items" maxLength={50} />
