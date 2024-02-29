@@ -15,9 +15,14 @@ export interface TaskModel {
 }
 
 export const App = () => {
+  const [searchFilter, setSearchFilter] = useState<string>('');
   const [filter, setFilter] = useState<FilterTitles>('none');
   const [tasks, setTasks] = useState<TaskModel[]>([]);
   const [task, setTask] = useState<string>('');
+
+  const handleUpdateSearchFilter = (searchTitle: string) => {
+    setSearchFilter(searchTitle);
+  };
 
   const handleChangeFilter = (
     filterValue: FilterTitles,
@@ -44,7 +49,12 @@ export const App = () => {
       <Modal>
         <ProgressBar progress={50} />
 
-        <Filter onClick={handleChangeFilter} currentFilter={filter} />
+        <Filter
+          onClick={handleChangeFilter}
+          currentFilter={filter}
+          onChange={handleUpdateSearchFilter}
+          currentSearchFilter={searchFilter}
+        />
 
         <Input
           onClick={handleCreateTask}
