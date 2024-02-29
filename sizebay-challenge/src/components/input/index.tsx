@@ -45,12 +45,24 @@ const CircleAdd = styled(IoAddCircle)`
   color: #ffffff;
 `;
 
-export const Input = () => {
+interface InputComponentProps {
+  onClick: () => void;
+  onChange: (text: string) => void;
+  value: string;
+}
+
+export const Input = ({ onClick, onChange, value }: InputComponentProps) => {
   return (
     <Container>
-      <InputStyled type="text" placeholder="Add new item…" maxLength={50} />
+      <InputStyled
+        type="text"
+        placeholder="Add new item…"
+        maxLength={50}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      />
 
-      <ButtonStyled>
+      <ButtonStyled onClick={onClick}>
         <CircleAdd size={27} />
       </ButtonStyled>
     </Container>
