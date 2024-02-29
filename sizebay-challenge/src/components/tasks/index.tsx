@@ -4,12 +4,24 @@ import { useEffect, useState } from 'react';
 
 export const Container = styled.div`
   width: 42.5rem;
-  max-height: 19rem;
+  max-height: 13.5rem;
   display: flex;
   flex-direction: column;
-  overflow: scroll;
+  overflow-y: auto;
   gap: 1rem;
-  margin-bottom: 2rem;
+
+  &::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 9px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #eee;
+  }
 
   @media (max-width: 900px) {
     width: 90%;
@@ -17,7 +29,7 @@ export const Container = styled.div`
 `;
 
 export const ContainerTask = styled.div`
-  width: 98.6%;
+  width: 98%;
   min-height: 2.5rem;
   display: flex;
   align-items: center;
@@ -110,6 +122,18 @@ export const Tasks = ({
           There are no items marked as{' '}
           {currentFilter !== 'done' ? 'pending' : 'done'}.{' '}
           <strong onClick={clearFilter}>Clear the filter here</strong> to see
+          all items.
+        </TextHelper>
+      </TextHelperContainer>
+    );
+  }
+
+  if (searchFilter && !filteredTasks.length) {
+    return (
+      <TextHelperContainer>
+        <TextHelper>
+          Your search found no results.{' '}
+          <strong onClick={clearFilter}>Clean the search here</strong> to see
           all items.
         </TextHelper>
       </TextHelperContainer>
