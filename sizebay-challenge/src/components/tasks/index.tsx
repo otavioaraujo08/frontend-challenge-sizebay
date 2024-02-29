@@ -1,3 +1,4 @@
+import { FaCircleMinus, FaCirclePlus } from 'react-icons/fa6';
 import styled from 'styled-components';
 import { FilterTitles, TaskModel } from 'App';
 import { useEffect, useState } from 'react';
@@ -39,10 +40,45 @@ export const ContainerTask = styled.div`
   background: #f4f4f4 0% 0% no-repeat padding-box;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
+  cursor: pointer;
 
   @media (max-width: 900px) {
     width: 96%;
   }
+`;
+
+export const ContainerTaskWithOptions = styled.div`
+  width: 98%;
+  min-height: 2.5rem;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: space-between;
+  padding-left: 0.5rem;
+  background: #f4f4f4 0% 0% no-repeat padding-box;
+  border: 1px solid #dbdbdb;
+  border-radius: 4px;
+  cursor: pointer;
+
+  & > div {
+    display: flex;
+    height: 100%;
+    align-items: center;
+  }
+
+  @media (max-width: 900px) {
+    width: 96%;
+  }
+`;
+
+export const ActionsButtons = styled.button<{ $isDelete?: boolean }>`
+  width: 2.75rem;
+  height: 3rem;
+  background: ${(props) => (props.$isDelete ? '#e34f4f' : '#5DE290')} 0% 0%
+    no-repeat padding-box;
+  border: none;
+  opacity: 1;
+  cursor: pointer;
 `;
 
 export const TaskTitle = styled.h1`
@@ -94,14 +130,19 @@ interface TasksProps {
   searchFilter: string;
   clearFilter: () => void;
   currentFilter: FilterTitles;
+  deleteTask: (task: string) => void;
+  updateTaskStatus: (title: string, newStatus: 'pending' | 'done') => void;
 }
 export const Tasks = ({
   tasksList,
   searchFilter,
   clearFilter,
   currentFilter,
+  deleteTask,
+  updateTaskStatus,
 }: TasksProps) => {
   const [filteredTasks, setFilteredTasks] = useState<TaskModel[]>(tasksList);
+  const [containerClick, setContainerClick] = useState<string>('');
 
   useEffect(() => {
     const newFilteredTasks = tasksList.filter((item) => {
@@ -142,11 +183,34 @@ export const Tasks = ({
 
   return (
     <Container>
-      {filteredTasks.map(({ title }) => (
-        <ContainerTask key={title}>
-          <TaskTitle>{title}</TaskTitle>
-        </ContainerTask>
-      ))}
+      {filteredTasks.map(({ title }) => {
+        return containerClick === title ? (
+          <ContainerTaskWithOptions
+            key={title}
+            onClick={() => setContainerClick(title)}
+          >
+            <TaskTitle>{title}</TaskTitle>
+
+            <div>
+              <ActionsButtons $isDelete onClick={() => deleteTask(title)}>
+                <FaCircleMinus size={18} color="#ffffff" />
+              </ActionsButtons>
+
+              <ActionsButtons>
+                <FaCirclePlus
+                  size={18}
+                  color="#ffffff"
+                  onClick={() => updateTaskStatus(title, 'done')}
+                />
+              </ActionsButtons>
+            </div>
+          </ContainerTaskWithOptions>
+        ) : (
+          <ContainerTask key={title} onClick={() => setContainerClick(title)}>
+            <TaskTitle>{title}</TaskTitle>
+          </ContainerTask>
+        );
+      })}
     </Container>
   );
 };
